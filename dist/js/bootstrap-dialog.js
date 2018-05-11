@@ -1141,6 +1141,10 @@
                     };
                 });
                 this.getModal().on('mouseup', {dialog: this}, function (event) {
+                    var dialog = event.data.dialog;
+                    if (!dialog.draggableData.isMouseDown) {
+                        return;
+                    }
                     /*关闭拖动模式*/
                     var positionArr = $modal.attr( 'style' ).split( ';' );
                     var position = {};
@@ -1148,7 +1152,6 @@
                         var arr = positionArr[i].split(':');
                         arr[0] && ( position[arr[0].replace(/(^\s*)|(\s*$)/g, '')] = arr[1] );
                     };
-                    console.log(position)
                     var style = {};
                     var width = $('body').width();
                     var height = $('body').height();
@@ -1156,6 +1159,7 @@
                     position.bottom && ( style.bottom = Number( height ) - parseInt( $dialog.css('top') ) - parseInt( $dialog.css('top') ) );
                     position.left && ( style.left = $dialog.css('left') );
                     position.right && ( style.right = Number( width ) - parseInt( $dialog.css('width') ) - parseInt( $dialog.css('left') ) );
+                    // if( !$(event.target).hasClass(bootstrap-dialog-header) ) return;
                     $dialog.attr('style', '');
                     $modal.removeClass( 'styleInit' ).css( style );
                     /*end*/
