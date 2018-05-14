@@ -1129,7 +1129,7 @@
                         left: $modal.css('left'),
                         margin: 0
                     };
-                    $modal.addClass( 'styleInit' );
+                    $modal.addClass( 'styleInit' ).data('zIndex', $modal.css('z-index') ).css('z-index', 999999);
                     $dialog.css(style);
                     /*end*/
                     var dialog = event.data.dialog;
@@ -1161,7 +1161,7 @@
                     position.right && ( style.right = Number( width ) - parseInt( $dialog.css('width') ) - parseInt( $dialog.css('left') ) );
                     // if( !$(event.target).hasClass(bootstrap-dialog-header) ) return;
                     $dialog.attr('style', '');
-                    $modal.removeClass( 'styleInit' ).css( style );
+                    $modal.removeClass( 'styleInit' ).css( style ).css('z-index', $modal.data('zIndex') );;
                     /*end*/
                     event.data.dialog.draggableData.isMouseDown = false;
                 });
