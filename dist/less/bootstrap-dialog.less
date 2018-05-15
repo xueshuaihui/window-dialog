@@ -1912,13 +1912,51 @@
       -ms-user-select: @select; // IE10+
           user-select: @select;
 }
-
+.min, .max {
+  margin-top: -2px;
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+  &:hover {
+    cursor: pointer;
+    .opacity(.6);
+  }
+}
 .bootstrap-dialog {
     // init dialog style
     width: @bootstrap-dialog-width;
     height: @bootstrap-dialog-height;
     margin: auto;
     overflow: hidden!important;
+    &.change-min {
+      // width: 200px!important;
+      // height: 53px!important;
+      // top: auto!important;
+      // bottom: 0!important;
+      // overflow: hidden!important;
+      width: 200px;
+      height: 53px;
+      top: auto;
+      bottom: 0;;
+      overflow: hidden;
+    }
+    &.change-max {
+      width: 100%!important;
+      height: 100%!important;
+      top: 0!important;
+      left: 0!important;
+      z-index: 99999!important;
+    }
     .modal-dialog {
       // width: 95%;
       // height: 95%;
@@ -1967,9 +2005,10 @@
     .bootstrap-dialog-button-icon {
         margin-right: 3px;
     }
-    .bootstrap-dialog-close-button {
+    .bootstrap-dialog-close-button, .bootstrap-dialog-min-button, .bootstrap-dialog-max-button {
         font-size: 20px;
         float: right;
+        margin-left: 10px;
         .opacity(0.9);
         &:hover {
             cursor: pointer;

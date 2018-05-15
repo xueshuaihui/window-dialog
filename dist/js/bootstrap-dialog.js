@@ -235,6 +235,8 @@
         closeByBackdrop: true,
         closeByKeyboard: true,
         closeIcon: '&#215;',
+        maxIcon: '&#164;',
+        minIcon: '&#8722;',
         spinicon: BootstrapDialog.ICON_SPINNER,
         autodestroy: true,
         draggable: false,
@@ -768,6 +770,12 @@
             // title
             $container.append(this.createTitleContent());
 
+            // min button
+            $container.prepend(this.createMinButton());
+
+            // max button
+            $container.prepend(this.createMaxButton());
+
             // Close button
             $container.prepend(this.createCloseButton());
 
@@ -787,6 +795,34 @@
             $container.append($icon);
             $container.on('click', {dialog: this}, function (event) {
                 event.data.dialog.close();
+            });
+
+            return $container;
+        },
+        createMaxButton: function(){
+            var $container = $('<div></div>');
+            $container.addClass(this.getNamespace('max-button'));
+            var $icon = $('<button class="max" aria-label="max"></button>');
+            $icon.append(this.options.maxIcon);
+            $container.append($icon);
+            $container.on('click', {dialog: this}, function (event) {
+                event.stopPropagation();
+                var $modal = event.data.dialog.getModal();
+                $modal.removeClass( 'change-min' ).toggleClass( 'change-max' );
+            });
+
+            return $container;
+        },
+        createMinButton: function(){
+            var $container = $('<div></div>');
+            $container.addClass(this.getNamespace('min-button'));
+            var $icon = $('<button class="min" aria-label="min"></button>');
+            $icon.append(this.options.minIcon);
+            $container.append($icon);
+            $container.on('click', {dialog: this}, function (event) {
+                event.stopPropagation();
+                var $modal = event.data.dialog.getModal();
+                $modal.removeClass( 'change-max' ).toggleClass( 'change-min' );
             });
 
             return $container;
@@ -1121,6 +1157,7 @@
             var $dialog =  that.getModalDialog();
             if (this.options.draggable) {
                 this.getModalHeader().addClass(this.getNamespace('draggable')).on('mousedown', {dialog: this}, function (event) {
+                    event.stopPropagation();
                     /*鼠标按下 开启拖动模式*/
                     var style = { 
                         width: $modal.css('width'), 
@@ -1141,6 +1178,7 @@
                     };
                 });
                 this.getModal().on('mouseup', {dialog: this}, function (event) {
+                    event.stopPropagation();
                     var dialog = event.data.dialog;
                     if (!dialog.draggableData.isMouseDown) {
                         return;
@@ -1166,6 +1204,7 @@
                     event.data.dialog.draggableData.isMouseDown = false;
                 });
                 $('body').on('mousemove', {dialog: this}, function (event) {
+                    event.stopPropagation();
                     var dialog = event.data.dialog;
                     if (!dialog.draggableData.isMouseDown) {
                         return;
