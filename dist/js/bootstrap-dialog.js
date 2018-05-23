@@ -231,9 +231,11 @@
         title: null,
         message: null,
         nl2br: true,
-        closable: true,
+        closable: false,
         closeByBackdrop: true,
         closeByKeyboard: true,
+        max: false,
+        min: false,
         closeIcon: '&#215;',
         maxIcon: '&#164;',
         minIcon: '&#8722;',
@@ -242,10 +244,27 @@
         draggable: false,
         animate: true,
         description: '',
-        tabindex: -1,
-        btnsOrder: BootstrapDialog.BUTTONS_ORDER_CANCEL_OK
+        tabindex: -1, 
+        btnsOrder: BootstrapDialog.BUTTONS_ORDER_CANCEL_OK,
+        backdrop: false,
+        ajax: {},
+        iframe: {
+            width: '100%',
+            height: '100%'
+        }
     };
-
+/*
+iframe{
+    src: '',
+    frameborder: 0/1,//是否显示iframe边框
+    width: '100%',
+    height: '100%',
+    longdesc: '',//页面描述
+    marginheight： '30px',//竖直方向边距
+    marginwidth: '30px',//水平方向边距
+    scrolling： 'auto/yes/no',//是否出现滚动条
+}
+*/
     /**
      * Config default options.
      */
@@ -345,14 +364,16 @@
                 var $modal = this.getModal();
                 var $backdrop = $modal.data('bs.modal').$backdrop;
                 var style = this.options.style;
-                /*2018.04.17  删除modal-backdrop，清除modal遮罩*/
-                $backdrop.remove();
+                /*2018.04.17  判断modal-backdrop，是否清除modal遮罩*/
+                this.options.backdrop?'':$backdrop.remove();
                 ( style.left || style.right ) && $modal.addClass( 'xPositionInit' );
                 ( style.top || style.bottom ) && $modal.addClass( 'yPositionInit' );
                 style && $modal.css( style );
                 /*end*/
                 $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
                 $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
+                // 任务栏
+                this.creatTaskbar();
             }
             return this;
         },
@@ -471,6 +492,7 @@
             return this;
         },
         createDynamicContent: function (rawContent) {
+            // 创建动态内容
             var content = null;
             if (typeof rawContent === 'function') {
                 content = rawContent.call(rawContent, this);
@@ -609,7 +631,17 @@
             return this;
         },
         getMessage: function () {
-            return this.options.message;
+            var $message = {};
+            if( this.options.message ){
+                $message.message = this.options.message;
+            }
+            if( this.options.iframe.src ){
+                $message.iframe = this.options.iframe;
+            }
+            if( this.options.ajax.url ){
+                $message.ajax = this.options.ajax;
+            }
+            return $message
         },
         setMessage: function (message) {
             this.options.message = message;
@@ -618,15 +650,47 @@
             return this;
         },
         updateMessage: function () {
+            // 更新内容
             if (this.isRealized()) {
-                var message = this.createDynamicContent(this.getMessage());
-                this.getModalBody().find('.' + this.getNamespace('message')).html('').append(message);
+                var $message = this.getMessage();
+                var $dialogMessage = this.getModalBody().find('.' + this.getNamespace('message')).html('');
+                if( $message.message ){
+                    var message = this.createDynamicContent( $message.message );
+                    $dialogMessage.append(message);
+                }
+                if( $message.iframe ){
+                    var IframeAttribute = '';
+                    for( var i in $message.iframe ){
+                        IframeAttribute += i+'='+$message.iframe[i]+' ';
+                    }
+                    var $Iframe =    '<iframe '+ IframeAttribute +'>\
+                                        <p>浏览器不支持iframes.</p>\
+                                    </iframe>'
+                    var message = this.createDynamicContent( $Iframe );
+                    $dialogMessage.append(message);
+                }
+                if( $message.ajax ){
+                    var $options = $message.ajax;
+                    var that = this;
+                    $options.success = function( content ){
+                        var message = that.createDynamicContent( content );
+                        $dialogMessage.append(message);
+                    }
+                    $.ajax($message.ajax);
+                }
+                
             }
 
             return this;
         },
         isClosable: function () {
             return this.options.closable;
+        },
+        isMax: function () {
+            return this.options.max;
+        },
+        isMin: function () {
+            return this.options.min;
         },
         setClosable: function (closable) {
             this.options.closable = closable;
@@ -794,6 +858,7 @@
             $icon.append(this.options.closeIcon);
             $container.append($icon);
             $container.on('click', {dialog: this}, function (event) {
+                event.stopPropagation();
                 event.data.dialog.close();
             });
 
@@ -808,12 +873,16 @@
             $container.on('click', {dialog: this}, function (event) {
                 event.stopPropagation();
                 var $modal = event.data.dialog.getModal();
-                $modal.removeClass( 'change-min' ).toggleClass( 'change-max' );
+                if( !$modal.hasClass("change-max") ){
+                    $modal.data("style", $modal.attr("style"))
+                }
+                $modal.removeClass( 'change-min' ).toggleClass( 'change-max' ).attr("style", $modal.data("style"));
             });
 
             return $container;
         },
         createMinButton: function(){
+            var that = this;
             var $container = $('<div></div>');
             $container.addClass(this.getNamespace('min-button'));
             var $icon = $('<button class="min" aria-label="min"></button>');
@@ -822,7 +891,8 @@
             $container.on('click', {dialog: this}, function (event) {
                 event.stopPropagation();
                 var $modal = event.data.dialog.getModal();
-                $modal.removeClass( 'change-max' ).toggleClass( 'change-min' );
+                $modal.removeClass( 'change-max' ).toggleClass( 'change-min' ).toggle().prev(".modal-backdrop").toggle();
+                that.createMinModal( that );
             });
 
             return $container;
@@ -1022,6 +1092,10 @@
             if (this.isRealized()) {
                 // Close button
                 this.getModalHeader().find('.' + this.getNamespace('close-button')).toggle(this.isClosable());
+                // Max button
+                this.getModalHeader().find('.' + this.getNamespace('max-button')).toggle(this.isMax());
+                // Min button
+                this.getModalHeader().find('.' + this.getNamespace('min-button')).toggle(this.isMin());
             }
 
             return this;
@@ -1259,6 +1333,21 @@
             this.getModal().modal('hide');
 
             return this;
+        },
+        creatTaskbar: function(){
+            // 创建任务栏 用于放置缩小后的dialog
+            this.$taskbar = ( $(".dialog-taskbar").length && $(".dialog-taskbar") ) || $("<div class='dialog-taskbar'>").appendTo( $("body") );
+            return this;
+        },
+        createMinModal: function( modal ){
+            var text = $(this.$modalHeader).find(".bootstrap-dialog-title").text();
+            var minModal = $("<div class='dialog-min-modal'>").text( text ).appendTo( this.$taskbar ).data("modal", modal);
+            minModal.on('click', function(event){
+                event.stopPropagation();
+                var $minModal = $(this);
+                $minModal.data("modal").$modal.toggleClass( 'change-min' ).toggle().prev(".modal-backdrop").toggle();
+                $minModal.remove();
+            })
         }
     };
 
