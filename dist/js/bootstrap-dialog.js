@@ -251,7 +251,8 @@
         iframe: {
             width: '100%',
             height: '100%'
-        }
+        },
+        template: {}
     };
 /*
 iframe{
@@ -641,6 +642,9 @@ iframe{
             if( this.options.ajax.url ){
                 $message.ajax = this.options.ajax;
             }
+            if( this.options.template.templateUrl ){
+                $message.template = this.options.template;
+            }
             return $message
         },
         setMessage: function (message) {
@@ -653,6 +657,7 @@ iframe{
             // 更新内容
             if (this.isRealized()) {
                 var $message = this.getMessage();
+                console.log( $message );
                 var $dialogMessage = this.getModalBody().find('.' + this.getNamespace('message')).html('');
                 if( $message.message ){
                     var message = this.createDynamicContent( $message.message );
@@ -670,13 +675,22 @@ iframe{
                     $dialogMessage.append(message);
                 }
                 if( $message.ajax ){
-                    var $options = $message.ajax;
                     var that = this;
-                    $options.success = function( content ){
+                    var $options = $message.ajax;
+                    $message.ajax.success = function( content ){
                         var message = that.createDynamicContent( content );
                         $dialogMessage.append(message);
                     }
-                    $.ajax($message.ajax);
+                    console.log( $options )
+                    $.ajax( $message.ajax );
+                }
+                if( $message.template ){
+                    $.get( $message.template.templateUrl, function( content ){
+                        $.post( $message.template.dataUrl, function( data ){
+                            console.log( content );
+                            console.log( data )
+                        } )
+                    })
                 }
                 
             }
