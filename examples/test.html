@@ -10,7 +10,7 @@
     <script src="./start/bootstrap.min.js"></script>
     <!-- <script src="./start/run_prettify.min.js"></script> -->
     <link rel="stylesheet" href="../dist/css/bootstrap-dialog.css">
-</head>
+</head> 
 <body> 
  <div id="app"></div>
 </body>
@@ -64,8 +64,10 @@
         template: {
             templateUrl: './pages/template.html',
             dataUrl: './data.json',
-            success: function(){
-
+            success: function( options ){
+                // success 接受三个参数 messageBox template data
+                console.log( options );
+                options.MessageBox.append( template.render( options.Template, options.Data ) )
             } 
         },
         style: {
@@ -136,20 +138,6 @@
             }
         }]
     });
-    BootstrapDialog.show({
-        title: 'Button Hotkey',
-        closable: true,
-        max: true,
-        min: true,
-        draggable: true,
-        message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
-        style: {
-            width: '450px',
-            height: '200px',
-            top: '420px',
-            right: '0'
-        }
-    });
 
     BootstrapDialog.show({
         title: 'Button Hotkey',
@@ -179,32 +167,45 @@
         }
     });
 
-    BootstrapDialog.show({
-        title: 'default',
-        backdrop: true,
-        closable: true,
-        min: true,
-        draggable: true,
-        message: '<p>我是默认的</p>',
-        style: {
-            left: '200px',
-            top: '500px'
-        }
-    });
-    BootstrapDialog.show({
-        title: 'default',
-        backdrop: true,
-        closable: true,
-        max: true,
-        min: true,
-        draggable: true, 
-        message: '<p>我是默认的</p>',
-        style: {
-            width: '300px',
-            height: '200px',
-            left: '100px',
-            top: '300px'
-        }
-    });
+    // BootstrapDialog.show({
+    //     title: 'default',
+    //     backdrop: true,
+    //     closable: true,
+    //     min: true,
+    //     draggable: true,
+    //     message: '<p>我是默认的</p>',
+    //     style: {
+    //         left: '200px',
+    //         top: '500px'
+    //     }
+    // });
+BootstrapDialog.show({
+    title: 'default',
+    closable: true,
+    max: true,
+    min: true,
+    draggable: true, 
+    message: '<p>我是默认的</p>',
+    style: {
+        width: '300px',
+        height: '200px',
+        left: '100px',
+        top: '300px'
+    }
+});
+BootstrapDialog.show({
+    title: 'Button Hotkey',
+    closable: true,
+    max: true,
+    min: true,
+    draggable: true,
+    message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
+    style: {
+        width: '450px',
+        height: '200px',
+        top: '420px',
+        right: '0'
+    }
+});
 </script>
 </html>

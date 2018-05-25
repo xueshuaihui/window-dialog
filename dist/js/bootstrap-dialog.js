@@ -657,7 +657,6 @@ iframe{
             // 更新内容
             if (this.isRealized()) {
                 var $message = this.getMessage();
-                console.log( $message );
                 var $dialogMessage = this.getModalBody().find('.' + this.getNamespace('message')).html('');
                 if( $message.message ){
                     var message = this.createDynamicContent( $message.message );
@@ -676,19 +675,26 @@ iframe{
                 }
                 if( $message.ajax ){
                     var that = this;
-                    var $options = $message.ajax;
-                    $message.ajax.success = function( content ){
-                        var message = that.createDynamicContent( content );
-                        $dialogMessage.append(message);
-                    }
-                    console.log( $options )
-                    $.ajax( $message.ajax );
+                    $.ajax( {
+                        url: $message.ajax.url,
+                        type: $message.ajax.type || 'get',
+                        data: $message.ajax.data || {},
+                        success: function( content ){
+                            var message = that.createDynamicContent( content );
+                            $dialogMessage.append(message);
+                            $message.ajax.success();
+                        }
+                    } );
                 }
                 if( $message.template ){
                     $.get( $message.template.templateUrl, function( content ){
                         $.post( $message.template.dataUrl, function( data ){
-                            console.log( content );
-                            console.log( data )
+                            var options = {
+                                MessageBox: $dialogMessage,
+                                Template: content,
+                                Data: data
+                            }
+                            $message.template.success( options );
                         } )
                     })
                 }
