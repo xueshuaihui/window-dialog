@@ -54,8 +54,10 @@
   overflow-y: auto;
 }
 .bootstrap-dialog .modal-dialog .modal-content .modal-body {
+  width: 100%;
   height: calc(100% - 53px);
   overflow-y: auto;
+  padding: 0;
 }
 .bootstrap-dialog .modal-dialog .modal-content .modal-body > .bootstrap-dialog-body {
   height: 100%;

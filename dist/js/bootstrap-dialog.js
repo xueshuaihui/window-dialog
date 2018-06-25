@@ -232,6 +232,7 @@
         message: null,
         nl2br: true,
         header: false,
+        headerContent: '',
         closable: false,
         closeByBackdrop: true,
         closeByKeyboard: true,
@@ -367,10 +368,11 @@ iframe{
                 var $backdrop = $modal.data('bs.modal').$backdrop;
                 var style = this.options.style;
                 /*2018.04.17  判断modal-backdrop，是否清除modal遮罩*/
-                this.options.backdrop?'':$backdrop.remove();
+                this.options.backdrop?'':$backdrop.hide();
                 ( style.left || style.right ) && $modal.addClass( 'xPositionInit' );
                 ( style.top || style.bottom ) && $modal.addClass( 'yPositionInit' );
                 style && $modal.css( style );
+                
                 /*end*/
                 $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
                 $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
@@ -915,6 +917,7 @@ iframe{
                 event.stopPropagation();
                 var $modal = event.data.dialog.getModal();
                 $modal.removeClass( 'change-max' ).toggleClass( 'change-min' ).toggle().prev(".modal-backdrop").toggle();
+                that.options.backdrop?'':that.getModal().data('bs.modal').$backdrop.remove();
                 that.createMinModal( that );
             });
 
