@@ -9,163 +9,163 @@
     <link href="./start/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="./start/bootstrap.min.js"></script>
     <!-- <script src="./start/run_prettify.min.js"></script> -->
-    <link rel="stylesheet" href="../dist/css/bootstrap-dialog.css">
+    <link rel="stylesheet" href="../dist/css/bootstrap-dialog.min.css">
 </head> 
 <body> 
  <div id="app"></div>
 </body>
-<script src='../dist/js/bootstrap-dialog.js'></script>
+<script src='../dist/js/bootstrap-dialog.min.js'></script>
 <script src='./start/template-web.js'></script>
 <script>
-    BootstrapDialog.show({
-        title: 'Button',
-        closable: false,         enlarge: false,         shrink: false,
-        max: true,
-        min: true,
-        iframe: {
-            src: 'https://www.baidu.com/',
-            width: '100px'
-        },
-        style: {
-            width: '450px',
-            height: '400px',
-            top: '20px',
-            left: '0'
-        },
-        onshow: function(dialog) {
-            dialog.getButton('button-c').disable();
-        },
-        buttons: [{
-            label: '(A) Button A',
-            hotkey: 65, // Keycode of keyup event of key 'A' is 65.
-            action: function() {
-                alert('Finally, you loved Button A.');
-            }
-        }, {
-            label: '(B) Button B',
-            hotkey: 66,
-            action: function() {
-                alert('Hello, this is Button B!');
-            }
-        }, {
-            id: 'button-c',
-            label: '(C) Button C',
-            hotkey: 67,
-            action: function(){
-                alert('This is Button C but you won\'t see me dance.');
-            }
-        }]
-    });
-    new BootstrapDialog({
-        title: 'template',
-        closable: false,
-        enlarge: false,
-        shrink: false,
-        template: {
-            templateUrl: './pages/template.html',
-            dataUrl: './data.json',
-            success: function( options ){
-                // success 接受三个参数 messageBox template data
-                console.log( options );
-                options.MessageBox.append( template.render( options.Template, options.Data ) )
-            } 
-        },
-        style: {
-            width: '450px',
-            height: '200px',
-            top: '420px',
-            left: '0'
-        }
-    }).open();
-    BootstrapDialog.show({
-        title: 'ajax',
-        closable: false,
-        enlarge: false,
-        shrink: false,
-        message: $('<p>test</p>'),
-        ajax: {
-            url: './pages/test.html',
-            success: function(){
-                console.log('success');
-            }
-        },
-        style: {
-            width: '450px',
-            height: '200px',
-            top: '600px',
-            left: '0'
-        }
-    });
+    // BootstrapDialog.show({
+    //     title: 'Button',
+    //     closable: false,         enlarge: false,         shrink: false,
+    //     max: true,
+    //     min: true,
+    //     iframe: {
+    //         src: 'https://www.baidu.com/',
+    //         width: '100px'
+    //     },
+    //     style: {
+    //         width: '450px',
+    //         height: '400px',
+    //         top: '20px',
+    //         left: '0'
+    //     },
+    //     onshow: function(dialog) {
+    //         dialog.getButton('button-c').disable();
+    //     },
+    //     buttons: [{
+    //         label: '(A) Button A',
+    //         hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+    //         action: function() {
+    //             alert('Finally, you loved Button A.');
+    //         }
+    //     }, {
+    //         label: '(B) Button B',
+    //         hotkey: 66,
+    //         action: function() {
+    //             alert('Hello, this is Button B!');
+    //         }
+    //     }, {
+    //         id: 'button-c',
+    //         label: '(C) Button C',
+    //         hotkey: 67,
+    //         action: function(){
+    //             alert('This is Button C but you won\'t see me dance.');
+    //         }
+    //     }]
+    // });
+    // new BootstrapDialog({
+    //     title: 'template',
+    //     closable: false,
+    //     enlarge: false,
+    //     shrink: false,
+    //     template: {
+    //         templateUrl: './pages/template.html',
+    //         dataUrl: './data.json',
+    //         success: function( options ){
+    //             // success 接受三个参数 messageBox template data
+    //             console.log( options );
+    //             options.MessageBox.append( template.render( options.Template, options.Data ) )
+    //         } 
+    //     },
+    //     style: {
+    //         width: '450px',
+    //         height: '200px',
+    //         top: '420px',
+    //         left: '0'
+    //     }
+    // }).open();
+    // BootstrapDialog.show({
+    //     title: 'ajax',
+    //     closable: false,
+    //     enlarge: false,
+    //     shrink: false,
+    //     message: $('<p>test</p>'),
+    //     ajax: {
+    //         url: './pages/test.html',
+    //         success: function(){
+    //             console.log('success');
+    //         }
+    //     },
+    //     style: {
+    //         width: '450px',
+    //         height: '200px',
+    //         top: '600px',
+    //         left: '0'
+    //     }
+    // });
 
 
-    BootstrapDialog.show({
-        title: 'Button',
-        closable: true,
-        enlarge: false,
-        shrink: false,
-        message: '<p>Try to press some keys...</p>',
-        iframe: {
-            src: 'https://www.baidu.com/',
-            frameborder: 0
-        },
-        style: {
-            width: '450px',
-            height: '400px',
-            top: '20px',
-            right: '0'
-        },
-        onshow: function(dialog) {
-            dialog.getButton('button-c').disable();
-        },
-        buttons: [{
-            label: '(A) Button A',
-            hotkey: 65, // Keycode of keyup event of key 'A' is 65.
-            action: function() {
-                alert('Finally, you loved Button A.');
-            }
-        }, {
-            label: '(B) Button B',
-            hotkey: 66,
-            action: function() {
-                alert('Hello, this is Button B!');
-            }
-        }, {
-            id: 'button-c',
-            label: '(C) Button C',
-            hotkey: 67,
-            action: function(){
-                alert('This is Button C but you won\'t see me dance.');
-            }
-        }]
-    });
+    // BootstrapDialog.show({
+    //     title: 'Button',
+    //     closable: true,
+    //     enlarge: false,
+    //     shrink: false,
+    //     message: '<p>Try to press some keys...</p>',
+    //     iframe: {
+    //         src: 'https://www.baidu.com/',
+    //         frameborder: 0
+    //     },
+    //     style: {
+    //         width: '450px',
+    //         height: '400px',
+    //         top: '20px',
+    //         right: '0'
+    //     },
+    //     onshow: function(dialog) {
+    //         dialog.getButton('button-c').disable();
+    //     },
+    //     buttons: [{
+    //         label: '(A) Button A',
+    //         hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+    //         action: function() {
+    //             alert('Finally, you loved Button A.');
+    //         }
+    //     }, {
+    //         label: '(B) Button B',
+    //         hotkey: 66,
+    //         action: function() {
+    //             alert('Hello, this is Button B!');
+    //         }
+    //     }, {
+    //         id: 'button-c',
+    //         label: '(C) Button C',
+    //         hotkey: 67,
+    //         action: function(){
+    //             alert('This is Button C but you won\'t see me dance.');
+    //         }
+    //     }]
+    // });
 
-    BootstrapDialog.show({
-        title: 'Button Hotkey',
-        closable: true,
-        enlarge: false,
-        shrink: false,
-        draggable: true,
-        message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
-        style: {
-            width: '450px',
-            height: '200px',
-            top: '220px',
-            right: '20PX'
-        }
-    });
-    BootstrapDialog.show({
-        title: 'Button Hotkey',
-        closable: true,
-        min: true,
-        // draggable: true,
-        message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
-        style: {
-            width: '450px',
-            height: '200px',
-            top: '650px',
-            right: '0'
-        }
-    });
+    // BootstrapDialog.show({
+    //     title: 'Button Hotkey',
+    //     closable: true,
+    //     enlarge: false,
+    //     shrink: false,
+    //     draggable: true,
+    //     message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
+    //     style: {
+    //         width: '450px',
+    //         height: '200px',
+    //         top: '220px',
+    //         right: '20PX'
+    //     }
+    // });
+    // BootstrapDialog.show({
+    //     title: 'Button Hotkey',
+    //     closable: true,
+    //     min: true,
+    //     // draggable: true,
+    //     message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
+    //     style: {
+    //         width: '450px',
+    //         height: '200px',
+    //         top: '650px',
+    //         right: '0'
+    //     }
+    // });
 
     // BootstrapDialog.show({
     //     title: 'default',
@@ -179,24 +179,25 @@
     //         top: '500px'
     //     }
     // });
+// BootstrapDialog.show({
+//     title: 'default',
+//     closable: true,
+//     max: true,
+//     min: true,
+//     draggable: true, 
+//     message: '<p>我是默认的</p>',
+//     style: {
+//         width: '300px',
+//         height: '200px',
+//         left: '100px',
+//         top: '300px'
+//     }
+// });
 BootstrapDialog.show({
-    title: 'default',
+    // title: 'Button Hotkey',
+    header: false,
     closable: true,
-    max: true,
-    min: true,
-    draggable: true, 
-    message: '<p>我是默认的</p>',
-    style: {
-        width: '300px',
-        height: '200px',
-        left: '100px',
-        top: '300px'
-    }
-});
-BootstrapDialog.show({
-    title: 'Button Hotkey',
-    closable: true,
-    max: true,
+    max: false,
     min: true,
     draggable: true,
     message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),

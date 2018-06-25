@@ -199,9 +199,9 @@
     BootstrapDialog.TYPE_WARNING = 'type-warning';
     BootstrapDialog.TYPE_DANGER = 'type-danger';
     BootstrapDialog.DEFAULT_TEXTS = {};
-    BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = 'Information';
-    BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO] = 'Information';
-    BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = 'Information';
+    BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = '';
+    BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO] = '';
+    BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = '';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'Success';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'Warning';
     BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER] = 'Danger';
@@ -231,6 +231,7 @@
         title: null,
         message: null,
         nl2br: true,
+        header: false,
         closable: false,
         closeByBackdrop: true,
         closeByKeyboard: true,
@@ -460,7 +461,9 @@ iframe{
             return this;
         },
         createModalHeader: function () {
-            return $('<div class="modal-header"></div>');
+            var modalHeader = this.header ? '<div class="modal-header"></div>': '<div></div>';
+            // return $('<div class="modal-header"></div>');
+            return $( modalHeader );
         },
         getModalHeader: function () {
             return this.$modalHeader;
