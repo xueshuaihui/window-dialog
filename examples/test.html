@@ -56,27 +56,26 @@
     //         }
     //     }]
     // });
-    // new BootstrapDialog({
-    //     title: 'template',
-    //     closable: false,
-    //     enlarge: false,
-    //     shrink: false,
-        // template: {
-        //     templateUrl: './pages/template.html',
-        //     dataUrl: './data.json',
-        //     success: function( options ){
-        //         // success 接受三个参数 messageBox template data
-        //         console.log( options );
-        //         options.MessageBox.append( template.render( options.Template, options.Data ) )
-        //     } 
-        // },
-    //     style: {
-    //         width: '450px',
-    //         height: '200px',
-    //         top: '420px',
-    //         left: '0'
-    //     }
-    // }).open();
+    new BootstrapDialog({
+        title: 'template',
+        closable: false,
+        enlarge: false,
+        shrink: false,
+        template: {
+            templateUrl: './pages/template.html',
+            dataUrl: './data.json',
+            success: function( options ){
+                // success 接受三个参数 messageBox template data
+                console.log( $('.bootstrap-dialog-message ul') )
+            } 
+        },
+        style: {
+        width: '450px',
+        height: '200px',
+        top: '420px',
+        right: '50%'
+    }
+    }).open();
     // BootstrapDialog.show({
     //     title: 'ajax',
     //     closable: false,
@@ -193,20 +192,20 @@
 //         top: '300px'
 //     }
 // });
-BootstrapDialog.show({
-    // title: 'Button Hotkey',
-    header: false,
-    closable: true,
-    max: false,
-    min: true,
-    draggable: true,
-    message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
-    style: {
-        width: '450px',
-        height: '200px',
-        top: '420px',
-        right: '0'
-    }
-});
+// BootstrapDialog.show({
+//     // title: 'Button Hotkey',
+//     header: false,
+//     closable: true,
+//     max: false,
+//     min: true,
+//     draggable: true,
+//     message: $('<textarea class="form-control" placeholder="Try to input multiple lines here..."></textarea>'),
+//     style: {
+//         width: '450px',
+//         height: '200px',
+//         top: '420px',
+//         right: '0'
+//     }
+// });
 </script>
 </html>

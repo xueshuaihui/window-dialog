@@ -372,7 +372,6 @@ iframe{
                 ( style.left || style.right ) && $modal.addClass( 'xPositionInit' );
                 ( style.top || style.bottom ) && $modal.addClass( 'yPositionInit' );
                 style && $modal.css( style );
-                
                 /*end*/
                 $modal.css('z-index', zIndexModal + (dialogCount - 1) * 20);
                 $backdrop.css('z-index', zIndexBackdrop + (dialogCount - 1) * 20);
@@ -385,7 +384,6 @@ iframe{
             !this.isRealized() && this.realize();
             this.getModal().modal('show');
             this.updateZIndex();
-
             return this;
         }
     };
@@ -422,7 +420,6 @@ iframe{
             .append(this.getModalHeader())
             .append(this.getModalBody())
             .append(this.getModalFooter());
-
             return this;
         },
         createModal: function () {
@@ -655,13 +652,14 @@ iframe{
         setMessage: function (message) {
             this.options.message = message;
             this.updateMessage();
-
+            
             return this;
         },
         updateMessage: function () {
             // 更新内容
             if (this.isRealized()) {
                 var $message = this.getMessage();
+                var that = this;
                 var $dialogMessage = this.getModalBody().find('.' + this.getNamespace('message')).html('');
                 if( $message.message ){
                     var message = this.createDynamicContent( $message.message );
@@ -699,13 +697,25 @@ iframe{
                                 Template: content,
                                 Data: data
                             }
-                            $message.template.success( options );
+                            options.MessageBox.append( template.render( options.Template, options.Data ));
+                            var messageBox = $(that.$modalContent).find('.bootstrap-dialog-message');
+                            var t;
+                            var loadFun = function(){
+                                if(messageBox.html() != ''){
+                                    $message.template.success( options );
+                                    clearTimeout(t);
+                                    return;
+                                }
+                                t = setTimeout(function(){
+                                    loadFun();
+                                },10)
+                            }
+                            loadFun();
                         } )
                     })
                 }
                 
             }
-
             return this;
         },
         isClosable: function () {
@@ -1345,13 +1355,11 @@ iframe{
             this.updateAnimate();
             this.updateSize();
             this.updateTabindex();
-
             return this;
         },
         open: function () {
             !this.isRealized() && this.realize();
             this.getModal().modal('show');
-
             return this;
         },
         close: function () {
@@ -1587,5 +1595,5 @@ iframe{
     };
 
     return BootstrapDialog;
-
+    
 }));
